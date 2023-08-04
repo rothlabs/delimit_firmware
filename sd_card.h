@@ -59,12 +59,12 @@ class SD_Card {
 };
 //void led_on(byte pin);
 //void led_off(byte pin);
-void led_on(byte pin){
-  digitalWrite(pin, HIGH);
-}
+// void led_on(byte pin){
+//   digitalWrite(pin, HIGH);
+// }
 
-void led_off(byte pin){
-  digitalWrite(pin, LOW);
-}
+// void led_off(byte pin){
+//   digitalWrite(pin, LOW);
+// }
 
 #endif
