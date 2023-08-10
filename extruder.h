@@ -14,6 +14,7 @@ byte Get_PWM(byte pin){
 
 class Extruder {
   AccelStepper stepper;
+  const float speed_coefficient = 1.9065;
   const int speed_input_pin = 33;
   const int dir_input_pin = 36;
   const int aux1_input_pin = 34;
@@ -45,7 +46,7 @@ class Extruder {
     speed = Get_PWM(speed_input_pin);
     dir = digitalRead(dir_input_pin);
     //int test_speed = (1-dir*2)*speed;
-    stepper.setSpeed(speed*(1-dir*2));
+    stepper.setSpeed(speed*speed_coefficient*(1-dir*2));
     stepper.runSpeed();
     //Serial.println(test_speed);
     // Compute the time it took

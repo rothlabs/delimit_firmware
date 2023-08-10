@@ -35,7 +35,7 @@ void setup() {
   //pinMode(LED_BUILTIN, OUTPUT);
   extruder.init();
   tmp_input = therm.analog2temp();
-  tmp_target = 150;
+  tmp_target = 205; // 205 C
   tmp_pid.SetMode(AUTOMATIC);
   tmp_pid.SetSampleTime(sample_interval);
 }
