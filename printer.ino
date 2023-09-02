@@ -8,6 +8,7 @@
   M65 P1 - heat off
 */
 
+#include "fluid.h"
 #include "extruder.h"
 #include <thermistor.h>
 #include <PID_v1.h>
@@ -15,6 +16,7 @@
 const int heat_input_pin = 30;
 const int heat_pin = 8;
 
+Fluid fluid;
 Extruder extruder;
 thermistor therm(A0, 0); // pin 14
 double tmp_target, tmp_input, heat_output;
@@ -26,13 +28,25 @@ unsigned long start = 0;
 unsigned long end = 0;
 unsigned long delta = 0;
 
+const int speed_input_pin = 33;
+byte Get_PWM(byte pin){ // put this back in main program #1
+  unsigned long highTime = pulseIn(pin, HIGH, 5000UL);  // 50 millisecond timeout
+  unsigned long lowTime = pulseIn(pin, LOW, 5000UL);  // 50 millisecond timeout
+  // pulseIn() returns zero on timeout
+  //if (highTime == 0 || lowTime == 0)
+  //  return digitalRead(pin) ? 255 : 0;  // HIGH == 100%,  LOW = 0%
+  return (255 * highTime) / (highTime + lowTime);  // highTime as percentage of total cycle time
+}
+
 // the setup function runs once when you press reset or power the board
 void setup() {
+  pinMode(speed_input_pin, INPUT);
   pinMode(heat_input_pin, INPUT);
   pinMode(heat_pin, OUTPUT);
   digitalWrite(heat_pin, LOW);
   Serial.begin(115200);
   //pinMode(LED_BUILTIN, OUTPUT);
+  fluid.init();
   extruder.init();
   tmp_input = therm.analog2temp();
   tmp_target = 205; // 205 C
@@ -47,8 +61,11 @@ void loop() {
   //start = micros();
 
   ////Call to your function
-  
-  extruder.update();
+
+  byte speed = Get_PWM(speed_input_pin);
+
+  fluid.update(speed);  
+  extruder.update(speed);
 
   ////Compute the time it took
   //end = micros();

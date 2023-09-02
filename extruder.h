@@ -3,28 +3,19 @@
 #include <Arduino.h>
 #include <AccelStepper.h>
 
-byte Get_PWM(byte pin){
-  unsigned long highTime = pulseIn(pin, HIGH, 5000UL);  // 50 millisecond timeout
-  unsigned long lowTime = pulseIn(pin, LOW, 5000UL);  // 50 millisecond timeout
-  // pulseIn() returns zero on timeout
-  //if (highTime == 0 || lowTime == 0)
-  //  return digitalRead(pin) ? 255 : 0;  // HIGH == 100%,  LOW = 0%
-  return (255 * highTime) / (highTime + lowTime);  // highTime as percentage of total cycle time
-}
+
 
 class Extruder {
   AccelStepper stepper;
   const float speed_coefficient = 1.9065;
-  const int speed_input_pin = 33;
   const int dir_input_pin = 36;
-  const int aux1_input_pin = 34;
+  const int aux1_input_pin = 34; 
   const int aux2_input_pin = 35;
   const int stp_pin = 26;
   const int dir_pin = 27;
   const int enb_pin = 37;
   byte speed, dir; // uint8_t
   public: void init(){
-    pinMode(speed_input_pin, INPUT);
     pinMode(dir_input_pin, INPUT);
     pinMode(aux1_input_pin, INPUT);
     pinMode(aux2_input_pin, INPUT);
@@ -38,15 +29,15 @@ class Extruder {
     digitalWrite(dir_pin, LOW);
     digitalWrite(enb_pin, LOW); // ACTIVE LOW
   }
-  public: void update(){
+  public: void update(byte speed){ // speed arg here #1
     //delay(500);
     
     //start = micros();
     // Call to your function
-    speed = Get_PWM(speed_input_pin);
-    dir = digitalRead(dir_input_pin);
+    //speed = Get_PWM(speed_input_pin);
+    //dir = digitalRead(dir_input_pin);
     //int test_speed = (1-dir*2)*speed;
-    stepper.setSpeed(speed*speed_coefficient*(1-dir*2));
+    stepper.setSpeed(speed*speed_coefficient);//stepper.setSpeed(speed*speed_coefficient*(1-dir*2));
     stepper.runSpeed();
     //Serial.println(test_speed);
     // Compute the time it took
