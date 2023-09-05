@@ -8,53 +8,29 @@
   M65 P1 - heat off
 */
 
-#include "heat.h"
+#include "global.h"
+//#include "heat.h"
 #include "flow.h"
-#include "step.h"
+//#include "step.h"
 
-#define heat_pin_t2 0 // pwm
-#define heat_pin_t3 1 // pwm
-#define heat_pin_t4 2 // pwm
+// Settings
+const byte cmd_delay = 5;
+const byte pwm_shift = 1; 
 
-#define flow_pin_t1a 3 // pwm
-#define flow_pin_t1b 4 // pwm
-#define flow_pin_t1c 5 // pwm
-#define flow_pin_t1d 6 // pwm
-
-#define laser_pin_t5 7 // pwm
-#define fiber_pin_t5 8 // pwm
-
-#define therm_pin_t2 14 
-#define therm_pin_t3 15 
-#define therm_pin_t4 16 
-
-#define air_pin_t1 26
-
-#define step_pin_t2 30
-#define step_pin_t3 31
-#define step_pin_t4 32
-
-#define cmd_pin_1 34
-#define cmd_pin_2 35
-#define cmd_pin_3 38
-#define cmd_pin_4 39
-#define cmd_pin_5 40
-
-#define speed_pin 41
-
-#define cmd_delay 10;
-uint32_t cmd_change_time = 0;
-byte cmd_potential = 0;
-
-byte cmd       = 0;
-byte speed     = 0;
-
-Heat heat;
+// State
+uint32_t cmd_potential_change_time = 0;
+//bool cmd_changed = false;
+byte prev_cmd_potential  = 0;
+byte prev_pwm = 0;
+byte cmd = 0;
+byte pwm = 0;
+//Heat heat;
 Flow flow;
-Step step;
+//Step step;
 
-// the setup function runs once when you press reset or power the board
+
 void setup() {
+  pinMode(air_pin_t1,   OUTPUT);
   pinMode(heat_pin_t2,  OUTPUT);
   pinMode(heat_pin_t3,  OUTPUT);
   pinMode(heat_pin_t4,  OUTPUT);
@@ -64,10 +40,15 @@ void setup() {
   pinMode(flow_pin_t1d, OUTPUT);
   pinMode(laser_pin_t5, OUTPUT);
   pinMode(fiber_pin_t5, OUTPUT);
-  pinMode(air_pin_t1,   OUTPUT);
-  pinMode(step_pin_t2,  OUTPUT);
-  pinMode(step_pin_t3,  OUTPUT);
-  pinMode(step_pin_t4,  OUTPUT);
+  pinMode(dir_pin_t2,  OUTPUT);
+  pinMode(stp_pin_t2,  OUTPUT);
+  pinMode(enb_pin_t2,  OUTPUT);
+  pinMode(dir_pin_t3,  OUTPUT);
+  pinMode(stp_pin_t3,  OUTPUT);
+  pinMode(enb_pin_t3,  OUTPUT);
+  pinMode(dir_pin_t4,  OUTPUT);
+  pinMode(stp_pin_t4,  OUTPUT);
+  pinMode(enb_pin_t4,  OUTPUT);
 
   pinMode(therm_pin_t2, INPUT);
   pinMode(therm_pin_t3, INPUT);
@@ -77,35 +58,63 @@ void setup() {
   pinMode(cmd_pin_3,    INPUT);
   pinMode(cmd_pin_4,    INPUT);
   pinMode(cmd_pin_5,    INPUT);
-  pinMode(speed_pin,    INPUT);
+  pinMode(cmd_pin_6,    INPUT);
+  pinMode(pwm_pin,      INPUT);
 
   Serial.begin(115200);
   
-  heat.init();
+  //heat.init();
   flow.init();
-  step.init();
+  //step.init();
 }
 
 void read_cmd(){
-  cmd_potential = digitalRead(cmd_pin_1) + digitalRead(cmd_pin_2)*2 + digitalRead(cmd_pin_3)*4 + digitalRead(cmd_pin_4)*8 + digitalRead(cmd_pin_5)*16;
-  if(cmd_potential != cmd) cmd_change_time = millis();
-  if(millis() - cmd_change_time > cmd_delay) cmd = cmd_potential;
+  //cmd_changed = false;
+  byte cmd_potential = digitalRead(cmd_pin_1) + digitalRead(cmd_pin_2)*2 + digitalRead(cmd_pin_3)*4 + digitalRead(cmd_pin_4)*8 + digitalRead(cmd_pin_5)*16 + digitalRead(cmd_pin_6)*32;
+  if(prev_cmd_potential != cmd_potential){
+    prev_cmd_potential = cmd_potential;
+    cmd_potential_change_time = millis();
+  }
+  if(cmd != cmd_potential && millis() - cmd_potential_change_time > cmd_delay){
+    cmd = cmd_potential;
+    //cmd_changed = true;
+    
+  }
 }
 
-void read_speed(){ // put this back in main program #1
-  unsigned long high_time = pulseIn(speed_pin, HIGH, 5000UL);  // 50 millisecond timeout
-  unsigned long low_time  = pulseIn(speed_pin, LOW, 5000UL);  // 50 millisecond timeout
-  return (255 * high_time) / (high_time + low_time);  // highTime as percentage of total cycle time
+void read_var(){ // put this back in main program #1
+  unsigned long high_time = pulseIn(pwm_pin, HIGH, 5000UL);  // 50 millisecond timeout
+  unsigned long low_time  = pulseIn(pwm_pin, LOW, 5000UL);  // 50 millisecond timeout
+  byte pwm_potential = (255 * high_time) / (high_time + low_time);  // highTime as percentage of total cycle time
+  if(pwm < pwm_potential - pwm_shift || pwm > pwm_potential + pwm_shift) pwm = pwm_potential;
 }
 
 void loop(){
   read_cmd();
-  read_speed();
-  heat.update(cmd, speed);  
-  flow.update(cmd, speed);  
-  step.update(cmd, speed);
+  read_var();
+  //heat.update(cmd, pwm);  
+  flow.update(cmd, pwm);  
+  //step.update(cmd, pwm);
 } 
 
+
+
+
+    // Serial.println("Command Changed!");
+    // Serial.print("Cmd Code: ");
+    // Serial.println(cmd);
+    // Serial.print("Cmd Pin 1: ");
+    // Serial.println(digitalRead(cmd_pin_1));
+    // Serial.print("Cmd Pin 2: ");
+    // Serial.println(digitalRead(cmd_pin_2));
+    // Serial.print("Cmd Pin 3: ");
+    // Serial.println(digitalRead(cmd_pin_3));
+    // Serial.print("Cmd Pin 4: ");
+    // Serial.println(digitalRead(cmd_pin_4));
+    // Serial.print("Cmd Pin 5: ");
+    // Serial.println(digitalRead(cmd_pin_5));
+    // Serial.print("Cmd Pin 6: ");
+    // Serial.println(digitalRead(cmd_pin_6));
 
 
 

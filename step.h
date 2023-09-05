@@ -28,7 +28,7 @@ class Step {
     digitalWrite(dir_pin, LOW);
     digitalWrite(enb_pin, LOW); // ACTIVE LOW
   }
-  public: void update(byte mode, byte speed){ // speed arg here #1
+  public: void update(byte cmd, byte pwm){ // speed arg here #1
 
     stepper.setSpeed(speed*pla_speed_coefficient);//stepper.setSpeed(speed*speed_coefficient*(1-dir*2));
     stepper.runSpeed();
