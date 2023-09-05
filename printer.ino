@@ -40,15 +40,18 @@ void setup() {
   pinMode(flow_pin_t1d, OUTPUT);
   pinMode(laser_pin_t5, OUTPUT);
   pinMode(fiber_pin_t5, OUTPUT);
-  pinMode(dir_pin_t2,  OUTPUT);
-  pinMode(stp_pin_t2,  OUTPUT);
-  pinMode(enb_pin_t2,  OUTPUT);
-  pinMode(dir_pin_t3,  OUTPUT);
-  pinMode(stp_pin_t3,  OUTPUT);
-  pinMode(enb_pin_t3,  OUTPUT);
-  pinMode(dir_pin_t4,  OUTPUT);
-  pinMode(stp_pin_t4,  OUTPUT);
-  pinMode(enb_pin_t4,  OUTPUT);
+  pinMode(dir_pin_t2,   OUTPUT);
+  pinMode(stp_pin_t2,   OUTPUT);
+  pinMode(enb_pin_t2,   OUTPUT);
+  pinMode(dir_pin_t3,   OUTPUT);
+  pinMode(stp_pin_t3,   OUTPUT);
+  pinMode(enb_pin_t3,   OUTPUT);
+  pinMode(dir_pin_t4,   OUTPUT);
+  pinMode(stp_pin_t4,   OUTPUT);
+  pinMode(enb_pin_t4,   OUTPUT);
+  pinMode(ready_pin_t2, OUTPUT);
+  pinMode(ready_pin_t2, OUTPUT);
+  pinMode(ready_pin_t3, OUTPUT);
 
   pinMode(therm_pin_t2, INPUT);
   pinMode(therm_pin_t3, INPUT);
@@ -78,7 +81,7 @@ void read_cmd(){
   if(cmd != cmd_potential && millis() - cmd_potential_change_time > cmd_delay){
     cmd = cmd_potential;
     //cmd_changed = true;
-    
+
   }
 }
 

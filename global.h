@@ -31,6 +31,10 @@
 #define stp_pin_t4 31 
 #define enb_pin_t4 32
 
+#define ready_pin_t2 20 // to pin 36 (aux input 0)
+#define ready_pin_t3 21 // to pin 30 (aux input 1)
+#define ready_pin_t4 22 // to pin 34 (aux input 2)
+
 #define cmd_pin_1 33 // command from grblhal
 #define cmd_pin_2 34
 #define cmd_pin_3 35
