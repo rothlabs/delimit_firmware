@@ -9,7 +9,7 @@
 */
 
 #include "global.h"
-//#include "heat.h"
+#include "heat.h"
 #include "flow.h"
 //#include "step.h"
 
@@ -24,7 +24,7 @@ byte prev_cmd_potential  = 0;
 byte prev_pwm = 0;
 byte cmd = 0;
 byte pwm = 0;
-//Heat heat;
+Heat heat;
 Flow flow;
 //Step step;
 
@@ -95,7 +95,7 @@ void read_var(){ // put this back in main program #1
 void loop(){
   read_cmd();
   read_var();
-  //heat.update(cmd, pwm);  
+  heat.update(cmd, pwm);  
   flow.update(cmd, pwm);  
   //step.update(cmd, pwm);
 } 
