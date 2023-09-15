@@ -11,6 +11,9 @@ class Flow {
   PWMServo flow_t1d;
   byte prev_cmd = 0;
   byte prev_pwm = 0;
+  byte flow_type = 0;
+  //bool flow_t1b = false;
+  //bool flow_t1c = false;
   public: void init(){
     flow_t1a.attach(flow_pin_t1a, 500, 2500); 
     flow_t1b.attach(flow_pin_t1b, 500, 2500);
@@ -25,24 +28,44 @@ class Flow {
     Serial.println(pwm);
     prev_cmd = cmd;
     prev_pwm = pwm;
-    if(cmd==0 || cmd==12 || cmd==13 || cmd==14){ // idle, t2, t3, t4
+    if(cmd==0 || cmd==12 || cmd==13 || cmd==14 || cmd==15){ // idle, t2, t3, t4, t5
+      //flow_t1a = false;
+      //flow_t1b = false;
+      //flow_t1c = false;
+      flow_type = 0;
       flow_t1a.write(flow_off_t1a);
       flow_t1b.write(flow_off_t1b);
       flow_t1c.write(flow_off_t1c);
       flow_t1d.write(flow_off_t1d);
     }else if(cmd == 9){ // h2o
-      flow_t1a.write(map(pwm, 0, 255, flow_off_t1a, flow_on_t1a));
+      flow_type = 1;
       flow_t1b.write(flow_off_t1b);
       flow_t1c.write(flow_off_t1c);
       flow_t1d.write(flow_off_t1d);
+      //flow_t1a = true;
+      //flow_t1b = false;
+      //flow_t1c = false;
     }else if(cmd == 10){ // pva
+      flow_type = 2;
       flow_t1a.write(flow_off_t1a);
-      flow_t1b.write(map(pwm, 0, 255, flow_off_t1b, flow_on_t1b));
       flow_t1c.write(flow_off_t1c);
       flow_t1d.write(flow_off_t1d);
+      //flow_t1a = false;
+      //flow_t1b = true;
+      //flow_t1c = false;
     }else if(cmd == 11){ // pu components
+      flow_type = 3;
       flow_t1a.write(flow_off_t1a);
       flow_t1b.write(flow_off_t1b);
+      //flow_t1a = false;
+      //flow_t1b = false;
+      //flow_t1c = true;
+    }
+    if(flow_type == 1){
+      flow_t1a.write(map(pwm, 0, 255, flow_off_t1a, flow_on_t1a));
+    }else if(flow_type == 2){
+      flow_t1b.write(map(pwm, 0, 255, flow_off_t1b, flow_on_t1b));
+    }else if(flow_type == 3){
       flow_t1c.write(map(pwm, 0, 255, flow_off_t1c, flow_on_t1c));
       flow_t1d.write(map(pwm, 0, 255, flow_off_t1d, flow_on_t1d));
     }

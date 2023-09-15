@@ -14,7 +14,7 @@
 //#include "step.h"
 
 // Settings
-const byte cmd_delay = 5;
+const byte cmd_resolve_interval = 10;
 const byte pwm_shift = 1; 
 
 // State
@@ -66,7 +66,7 @@ void setup() {
 
   Serial.begin(115200);
   
-  //heat.init();
+  heat.init();
   flow.init();
   //step.init();
 }
@@ -78,7 +78,7 @@ void read_cmd(){
     prev_cmd_potential = cmd_potential;
     cmd_potential_change_time = millis();
   }
-  if(cmd != cmd_potential && millis() - cmd_potential_change_time > cmd_delay){
+  if(cmd != cmd_potential && millis() - cmd_potential_change_time > cmd_resolve_interval){
     cmd = cmd_potential;
     //cmd_changed = true;
 
