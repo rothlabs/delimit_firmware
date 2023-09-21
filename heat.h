@@ -45,10 +45,10 @@ class Heat {
   public: void update(byte cmd, byte pwm){
     if(cmd == 0){
       digitalWrite(air_pin_t1, LOW);
-      analogWrite(heat_pin_t2, 0);
+      //analogWrite(heat_pin_t2, 0);
       analogWrite(heat_pin_t3, 0);
       analogWrite(heat_pin_t4, 0);
-      heat_t2 = false;
+      heat_t2 = true;
       heat_t3 = false;
       heat_t4 = false;
     }else if(cmd == 1){
