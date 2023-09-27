@@ -59,9 +59,9 @@
 #define flow_off_t1d 45
 #define flow_on_t1d  180
 
-#define cap_closed   90
-#define cap_pva_open 90
-#define cap_pu_open  90 
+#define cap_closed 90
+#define cap_open   90
+#define cap_mixer  90 
 
 #define plug_closed_t2 90
 #define plug_open_t2   90

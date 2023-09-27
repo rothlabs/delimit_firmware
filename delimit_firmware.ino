@@ -11,7 +11,7 @@
 #include "global.h"
 #include "heat.h"
 #include "flow.h"
-//#include "step.h"
+#include "step.h"
 
 // Settings
 const byte cmd_resolve_interval = 10;
@@ -19,14 +19,14 @@ const byte pwm_shift = 1;
 
 // State
 uint32_t cmd_potential_change_time = 0;
-//bool cmd_changed = false;
 byte prev_cmd_potential  = 0;
-byte prev_pwm = 0;
 byte cmd = 0;
 byte pwm = 0;
+byte prev_cmd = 0;
+byte prev_pwm = 0;
 Heat heat;
 Flow flow;
-//Step step;
+Step step;
 
 
 void setup() {
@@ -72,11 +72,10 @@ void setup() {
   
   heat.init();
   flow.init();
-  //step.init();
+  step.init();
 }
 
 void read_cmd(){
-  //cmd_changed = false;
   byte cmd_potential = digitalRead(cmd_pin_1) + digitalRead(cmd_pin_2)*2 + digitalRead(cmd_pin_3)*4 + digitalRead(cmd_pin_4)*8 + digitalRead(cmd_pin_5)*16 + digitalRead(cmd_pin_6)*32;
   if(prev_cmd_potential != cmd_potential){
     prev_cmd_potential = cmd_potential;
@@ -84,8 +83,6 @@ void read_cmd(){
   }
   if(cmd != cmd_potential && millis() - cmd_potential_change_time > cmd_resolve_interval){
     cmd = cmd_potential;
-    //cmd_changed = true;
-
   }
 }
 
@@ -99,10 +96,20 @@ void read_var(){ // put this back in main program #1
 void loop(){
   read_cmd();
   read_var();
+  step.run(pwm);
+  if(prev_cmd == cmd && prev_pwm == pwm) return;
+  prev_cmd = cmd;
+  prev_pwm = pwm;
+  Serial.print("Cmd, pwm: ");
+  Serial.print(cmd);
+  Serial.print(", ");
+  Serial.println(pwm);
   heat.update(cmd, pwm);  
-  flow.update(cmd, pwm);  
-  //step.update(cmd, pwm);
+  flow.update(cmd, pwm); 
+  step.update(cmd, pwm); 
 } 
+
+
 
 
 
