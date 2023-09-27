@@ -49,6 +49,10 @@ void setup() {
   pinMode(dir_pin_t4,   OUTPUT);
   pinMode(stp_pin_t4,   OUTPUT);
   pinMode(enb_pin_t4,   OUTPUT);
+  pinMode(plug_pin_t2,  OUTPUT);
+  pinMode(plug_pin_t3,  OUTPUT);
+  pinMode(plug_pin_t4,  OUTPUT);
+  pinMode(cap_pin,      OUTPUT);
   pinMode(ready_pin_t2, OUTPUT);
   pinMode(ready_pin_t2, OUTPUT);
   pinMode(ready_pin_t3, OUTPUT);

@@ -19,6 +19,10 @@
 #define therm_pin_t3 15 
 #define therm_pin_t4 16
 
+#define plug_pin_t2 17 
+#define plug_pin_t3 18
+#define plug_pin_t4 19
+
 #define dir_pin_t2  24 // tool 2 - extruder stepper
 #define stp_pin_t2  25 
 #define enb_pin_t2  26
@@ -30,6 +34,8 @@
 #define dir_pin_t4 30 // tool 4 - extruder stepper
 #define stp_pin_t4 31 
 #define enb_pin_t4 32
+
+#define cap_pin 40
 
 #define ready_pin_t2 20 // to pin 36 (aux input 0)
 #define ready_pin_t3 21 // to pin 30 (aux input 1)
@@ -45,12 +51,23 @@
 
 // Settings 
 #define flow_off_t1a 45
-#define flow_on_t1a 180
+#define flow_on_t1a  180
 #define flow_off_t1b 45
-#define flow_on_t1b 180
+#define flow_on_t1b  180
 #define flow_off_t1c 45
-#define flow_on_t1c 180
+#define flow_on_t1c  180
 #define flow_off_t1d 45
-#define flow_on_t1d 180
+#define flow_on_t1d  180
+
+#define cap_closed   90
+#define cap_pva_open 90
+#define cap_pu_open  90 
+
+#define plug_closed_t2 90
+#define plug_open_t2   90
+#define plug_closed_t3 90
+#define plug_open_t3   90
+#define plug_closed_t4 90
+#define plug_open_t4   90
 
 #endif
