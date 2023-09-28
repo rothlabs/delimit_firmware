@@ -17,9 +17,9 @@ class Step {
     step_2.setMaxSpeed(1000);
     step_3.setMaxSpeed(1000);
     step_4.setMaxSpeed(1000);
-    digitalWrite(enb_pin_t2, HIGH); // ACTIVE LOW
-    digitalWrite(enb_pin_t3, HIGH); // ACTIVE LOW
-    digitalWrite(enb_pin_t4, HIGH); // ACTIVE LOW
+    digitalWrite(enb_pin_t2, HIGH); // Disable steppers
+    digitalWrite(enb_pin_t3, HIGH); 
+    digitalWrite(enb_pin_t4, HIGH); 
     plug_t2.attach(plug_pin_t2, 500, 2500);
     plug_t3.attach(plug_pin_t3, 500, 2500);
     plug_t4.attach(plug_pin_t4, 500, 2500);
@@ -35,19 +35,19 @@ class Step {
       digitalWrite(enb_pin_t4, HIGH); 
     }else if(cmd == 12){
       selector = 2;
-      digitalWrite(enb_pin_t2, LOW); 
+      digitalWrite(enb_pin_t2, LOW); // ACTIVE LOW
       digitalWrite(enb_pin_t3, HIGH); 
       digitalWrite(enb_pin_t4, HIGH); 
     }else if(cmd == 13){
       selector = 3;
       digitalWrite(enb_pin_t2, HIGH); 
-      digitalWrite(enb_pin_t3, LOW); 
+      digitalWrite(enb_pin_t3, LOW); // ACTIVE LOW
       digitalWrite(enb_pin_t4, HIGH); 
     }else if(cmd == 14){
       selector = 4;
       digitalWrite(enb_pin_t2, HIGH); 
       digitalWrite(enb_pin_t3, HIGH); 
-      digitalWrite(enb_pin_t4, LOW); 
+      digitalWrite(enb_pin_t4, LOW); // ACTIVE LOW
     }
     if(selector == 2){
       step_2.setSpeed(pwm*factor);

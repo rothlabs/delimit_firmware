@@ -1,11 +1,5 @@
 /*
   Delimit Printer
-  M3 S0 - stop extrusion 
-  M3 S1000 - full flow extrusion
-  M64 P0 - retract mode
-  M65 P0 - regular extrusion
-  M64 P1 - heat to target temp
-  M65 P1 - heat off
 */
 
 #include "global.h"
