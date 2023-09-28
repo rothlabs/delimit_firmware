@@ -23,6 +23,9 @@ class Step {
     plug_t2.attach(plug_pin_t2, 500, 2500);
     plug_t3.attach(plug_pin_t3, 500, 2500);
     plug_t4.attach(plug_pin_t4, 500, 2500);
+    plug_t2.write(plug_closed_t2);
+    plug_t3.write(plug_closed_t3);
+    plug_t4.write(plug_closed_t4);
   }
   public: void update(byte cmd, byte pwm){ // speed arg here #1
     if(cmd == 0){

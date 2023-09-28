@@ -34,6 +34,13 @@ class Heat {
     pid_t2.SetSampleTime(sample_interval);
     pid_t3.SetSampleTime(sample_interval);
     pid_t4.SetSampleTime(sample_interval);
+    digitalWrite(air_pin_t1, LOW);
+    analogWrite(heat_pin_t2, 0);
+    analogWrite(heat_pin_t3, 0);
+    analogWrite(heat_pin_t4, 0);
+    digitalWrite(ready_pin_t2, LOW);
+    digitalWrite(ready_pin_t3, LOW);
+    digitalWrite(ready_pin_t4, LOW);
   }
   public: void update(byte cmd, byte pwm){
     if(cmd == 0){
