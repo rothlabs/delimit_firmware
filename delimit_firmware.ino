@@ -28,7 +28,6 @@ Heat heat;
 Flow flow;
 Step step;
 
-
 void setup() {
   pinMode(air_pin_t1,   OUTPUT);
   pinMode(heat_pin_t2,  OUTPUT);
@@ -54,8 +53,8 @@ void setup() {
   pinMode(plug_pin_t4,  OUTPUT);
   pinMode(cap_pin,      OUTPUT);
   pinMode(ready_pin_t2, OUTPUT);
-  pinMode(ready_pin_t2, OUTPUT);
   pinMode(ready_pin_t3, OUTPUT);
+  pinMode(ready_pin_t4, OUTPUT);
 
   pinMode(therm_pin_t2, INPUT);
   pinMode(therm_pin_t3, INPUT);
@@ -76,7 +75,7 @@ void setup() {
 }
 
 void read_cmd(){
-  byte cmd_potential = digitalRead(cmd_pin_1) + digitalRead(cmd_pin_2)*2 + digitalRead(cmd_pin_3)*4 + digitalRead(cmd_pin_4)*8 + digitalRead(cmd_pin_5)*16 + digitalRead(cmd_pin_6)*32;
+  byte cmd_potential = digitalRead(cmd_pin_1) + digitalRead(cmd_pin_2)*2 + digitalRead(cmd_pin_3)*4 + digitalRead(cmd_pin_4)*8 + digitalRead(cmd_pin_5)*16;// + digitalRead(cmd_pin_6)*32;
   if(prev_cmd_potential != cmd_potential){
     prev_cmd_potential = cmd_potential;
     cmd_potential_change_time = millis();
@@ -88,7 +87,7 @@ void read_cmd(){
 
 void read_var(){ // put this back in main program #1
   unsigned long high_time = pulseIn(pwm_pin, HIGH, 5000UL);  // 50 millisecond timeout
-  unsigned long low_time  = pulseIn(pwm_pin, LOW, 5000UL);  // 50 millisecond timeout
+  unsigned long low_time  = pulseIn(pwm_pin, LOW,  5000UL);  // 50 millisecond timeout
   byte pwm_potential = (255 * high_time) / (high_time + low_time);  // highTime as percentage of total cycle time
   if(pwm < pwm_potential - pwm_shift || pwm > pwm_potential + pwm_shift) pwm = pwm_potential;
 }

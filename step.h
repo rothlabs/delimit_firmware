@@ -2,10 +2,13 @@
 #define STEP
 #include <Arduino.h>
 #include <AccelStepper.h>
+#include <PWMServo.h>
 
 class Step {
   AccelStepper step_2, step_3, step_4;
+  PWMServo plug_t2, plug_t3, plug_t4;
   const float factor = 1.4902;
+  bool plug_open = false;
   byte selector = 0;
   public: void init(){
     step_2 = AccelStepper(AccelStepper::DRIVER, stp_pin_t2, dir_pin_t2);
@@ -17,16 +20,28 @@ class Step {
     digitalWrite(enb_pin_t2, LOW); // ACTIVE LOW
     digitalWrite(enb_pin_t3, LOW); // ACTIVE LOW
     digitalWrite(enb_pin_t4, LOW); // ACTIVE LOW
+    plug_t2.attach(plug_pin_t2, 500, 2500);
+    plug_t3.attach(plug_pin_t3, 500, 2500);
+    plug_t4.attach(plug_pin_t4, 500, 2500);
   }
   public: void update(byte cmd, byte pwm){ // speed arg here #1
     if(cmd == 0){
       selector = 0;
+      plug_t2.write(plug_closed_t2);
+      plug_t3.write(plug_closed_t3);
+      plug_t4.write(plug_closed_t4);
     }else if(cmd == 12){
       selector = 2;
+      plug_t3.write(plug_closed_t3);
+      plug_t4.write(plug_closed_t4);
     }else if(cmd == 13){
       selector = 3;
+      plug_t2.write(plug_closed_t2);
+      plug_t4.write(plug_closed_t4);
     }else if(cmd == 14){
       selector = 4;
+      plug_t2.write(plug_closed_t2);
+      plug_t3.write(plug_closed_t3);
     }
     if(selector == 2){
       step_2.setSpeed(pwm*factor);
@@ -37,12 +52,19 @@ class Step {
     }
   }
   public: void run(byte pwm){
+    plug_open = digitalRead(cmd_pin_6);
     if(selector == 2){
       step_2.runSpeed();
+      if(plug_open) plug_t2.write(plug_open_t2);
+      else          plug_t2.write(plug_closed_t2);
     }else if(selector == 3){
       step_3.runSpeed();
+      if(plug_open) plug_t2.write(plug_open_t3);
+      else          plug_t2.write(plug_closed_t3);
     }else if(selector == 4){
       step_4.runSpeed();
+      if(plug_open) plug_t2.write(plug_open_t4);
+      else          plug_t2.write(plug_closed_t4);
     }
   }
 };

@@ -10,9 +10,6 @@ class Flow {
   PWMServo flow_t1c;
   PWMServo flow_t1d;
   PWMServo cap;
-  PWMServo plug_t2;
-  PWMServo plug_t3;
-  PWMServo plug_t4;
   byte selector = 0;
   public: void init(){
     flow_t1a.attach(flow_pin_t1a, 500, 2500); 
@@ -20,9 +17,6 @@ class Flow {
     flow_t1c.attach(flow_pin_t1c, 500, 2500);
     flow_t1d.attach(flow_pin_t1d, 500, 2500);
     cap.attach(cap_pin,           500, 2500);
-    plug_t2.attach(plug_pin_t2,   500, 2500);
-    plug_t3.attach(plug_pin_t3,   500, 2500);
-    plug_t4.attach(plug_pin_t4,   500, 2500);
   }
   public: void update(byte cmd, byte pwm){ // byte speed
     if(cmd==0 || cmd==12 || cmd==13 || cmd==14 || cmd==15){ // idle, t2, t3, t4, t5 
@@ -58,12 +52,6 @@ class Flow {
       cap.write(cap_closed);
     }else if(cmd == 19){
       cap.write(cap_open);
-    }else if(cmd == 20){
-      cap.write(cap_mixer);
-    }else if(cmd == 21){
-      plug_t2.write(plug_closed_t2);
-    }else if(cmd == 20){
-      cap.write(plug_open_t2);
     }else if(cmd == 20){
       cap.write(cap_mixer);
     }
