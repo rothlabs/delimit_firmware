@@ -9,7 +9,7 @@
 
 // Settings
 const byte cmd_resolve_interval = 10;
-const byte pwm_shift = 1; 
+const byte pwm_shift = 2; 
 
 // State
 uint32_t cmd_potential_change_time = 0;
@@ -89,14 +89,15 @@ void read_var(){ // put this back in main program #1
 void loop(){
   read_cmd();
   read_var();
-  step.run(pwm);
+  heat.run();
+  step.run();
   if(prev_cmd == cmd && prev_pwm == pwm) return;
   prev_cmd = cmd;
   prev_pwm = pwm;
-  Serial.print("Cmd, pwm: ");
-  Serial.print(cmd);
-  Serial.print(", ");
-  Serial.println(pwm);
+  //Serial.print("Cmd, pwm: ");
+  //Serial.print(cmd);
+  //Serial.print(", ");
+  //Serial.println(pwm);
   heat.update(cmd, pwm);  
   flow.update(cmd, pwm); 
   step.update(cmd, pwm); 
@@ -104,8 +105,16 @@ void loop(){
 
 
 
+// Serial.print("Cmd, pwm: ");
+  // Serial.print(cmd);
+  // Serial.print(", ");
+  // Serial.println(pwm);
 
-
+  // if(prev_cmd != cmd){
+  //   Serial.print("Cmd: ");
+  //   Serial.println(cmd);
+  //   if() return;
+  // }
 
     // Serial.println("Command Changed!");
     // Serial.print("Cmd Code: ");

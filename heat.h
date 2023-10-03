@@ -5,9 +5,9 @@
 #include <PID_v1.h>
 #include "global.h"
 
-double pid_target_t2 = 210; // pla
-double pid_target_t3 = 220; // tpu
-double pid_target_t4 = 220; // tpu
+double pid_target_t2 = 240; // pla
+double pid_target_t3 = 240; // tpu
+double pid_target_t4 = 240; // tpu
 double pid_input_t2, pid_input_t3, pid_input_t4;
 double pid_output_t2, pid_output_t3, pid_output_t4;
 double Kp=15, Ki=0.3, Kd=0; // double Kp=2, Ki=5, Kd=1;
@@ -24,7 +24,10 @@ class Heat {
   bool heat_t2 = false;
   bool heat_t3 = false;
   bool heat_t4 = false;
+  bool heat_ready_t2 = false;
   public: void init(){
+    //analogWriteFrequency(heat_pin_t2, 100);
+
     pid_input_t2 = therm_t2.analog2temp();
     pid_input_t3 = therm_t3.analog2temp();
     pid_input_t4 = therm_t4.analog2temp();
@@ -54,11 +57,13 @@ class Heat {
       digitalWrite(ready_pin_t2, LOW);
       digitalWrite(ready_pin_t3, LOW);
       digitalWrite(ready_pin_t4, LOW);
+      heat_ready_t2 = false;
     }else if(cmd == 1){
       digitalWrite(air_pin_t1, LOW);
     }else if(cmd == 2){
       heat_t2 = false;
       digitalWrite(ready_pin_t2, LOW);
+      heat_ready_t2 = false;
     }else if(cmd == 3){
       heat_t3 = false;
       digitalWrite(ready_pin_t3, LOW);
@@ -74,14 +79,22 @@ class Heat {
     }else if(cmd == 8){
       heat_t4 = true;
     }
+  }
+  public: void run(){
     if(millis() - sample_time > sample_interval){
       if(heat_t2){
         pid_input_t2 = therm_t2.analog2temp();
         pid_t2.Compute();
-        analogWrite(heat_pin_t2, pid_output_t2);
-        Serial.print("Temp T2: ");
-        Serial.println(pid_input_t2);
-        if(pid_input_t2 >= pid_target_t2) digitalWrite(ready_pin_t2, HIGH);
+        analogWrite(heat_pin_t2, pid_output_t2 * 16); // PWMServo or other lib called analogWriteResolution(12) (0-4095)?! #1
+        if(!heat_ready_t2){
+          Serial.print("Temp T2: ");
+          Serial.println(pid_input_t2);
+          if(pid_input_t2 >= pid_target_t2) {
+            heat_ready_t2 = true;
+            digitalWrite(ready_pin_t2, HIGH);
+            Serial.println("Heat Ready T2");
+          }
+        }
       }
       if(heat_t3){
         pid_input_t3 = therm_t3.analog2temp();
@@ -105,6 +118,12 @@ class Heat {
 };
 
 #endif
+
+
+//digitalWrite(heat_pin_t2, HIGH);
+        //analogWrite(heat_pin_t2, 4000);
+        //Serial.print("Output Heat T2: ");
+        //Serial.println(pid_output_t2);
 
 
     //therm_t2 = thermistor(therm_pin_t2, 0); 

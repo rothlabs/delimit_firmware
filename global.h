@@ -50,24 +50,24 @@
 #define pwm_pin   39
 
 // Settings 
-#define flow_off_t1a 50 // h2o
-#define flow_on_t1a  67 //65 drip
-#define flow_off_t1b 50 // pva
-#define flow_on_t1b  84
-#define flow_off_t1c 45
+#define flow_off_t1a 70 // h2o
+#define flow_on_t1a  78 
+#define flow_off_t1b 101 // pva 
+#define flow_on_t1b  105
+#define flow_off_t1c 40
 #define flow_on_t1c  180
-#define flow_off_t1d 45
+#define flow_off_t1d 40
 #define flow_on_t1d  180
 
-#define cap_closed 97
-#define cap_open   55
-#define cap_mixer  55 
+#define cap_closed 70
+#define cap_open   0
+#define cap_mixer  30 
 
-#define plug_closed_t2 100
-#define plug_open_t2   90
-#define plug_closed_t3 100
-#define plug_open_t3   90
-#define plug_closed_t4 100
-#define plug_open_t4   90
+#define plug_closed_t2 101
+#define plug_open_t2   89
+#define plug_closed_t3 101
+#define plug_open_t3   89
+#define plug_closed_t4 101
+#define plug_open_t4   89
 
 #endif
