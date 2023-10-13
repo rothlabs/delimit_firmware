@@ -7,7 +7,7 @@
 class Step {
   AccelStepper step_2, step_3, step_4;
   PWMServo plug_t2, plug_t3, plug_t4;
-  const float factor = 1.4902; // need to remap for 255 -> 200 mm/s or more!!! #1
+  const float factor = 1.9065;//1.4902; // need to remap for 255 -> 200 mm/s or more!!! #1
   //bool plug_open = false;
   //bool extrude = false;
   bool retracted = false;
@@ -81,7 +81,7 @@ class Step {
       //   }
       // }
       if(digitalRead(cmd_pin_6)){
-        speed = (51 * factor) * 1;
+        speed = pwm*factor; //(51 * factor);
       }else{
         speed = 0;
       }

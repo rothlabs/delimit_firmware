@@ -5,7 +5,7 @@
 #include <PID_v1.h>
 #include "global.h"
 
-double pid_target_t2 = 240; // pla
+double pid_target_t2 = 230; // pla
 double pid_target_t3 = 240; // tpu
 double pid_target_t4 = 240; // tpu
 double pid_input_t2, pid_input_t3, pid_input_t4;

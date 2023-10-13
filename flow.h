@@ -24,8 +24,8 @@ class Flow {
     cap.write(cap_closed);
   }
   private: void close_cap(){
-    cap.write(cap_closed+2);
-    delay(1300);
+    //cap.write(cap_closed+2);
+    //delay(1300);
     cap.write(cap_closed);
   }
   public: void update(byte cmd, byte pwm){ // byte speed
@@ -63,8 +63,8 @@ class Flow {
     }
     if(selector == 1){
       //flow_t1a.write(map(pwm, 0, 255, flow_off_t1a, flow_on_t1a));
-      if(pwm > 128) flow_t1b.write(flow_on_t1a);
-      else flow_t1b.write(flow_off_t1a);
+      if(pwm > 128) flow_t1a.write(flow_on_t1a);
+      else flow_t1a.write(flow_off_t1a);
     }else if(selector == 2){
       if(pwm > 128) flow_t1b.write(flow_on_t1b);
       else flow_t1b.write(flow_off_t1b);

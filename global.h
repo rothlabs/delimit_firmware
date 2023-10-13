@@ -19,7 +19,7 @@
 #define therm_pin_t3 15 
 #define therm_pin_t4 16
 
-#define plug_pin_t2 10 
+#define plug_pin_t2 10 // repurpose to fiber grip pin
 #define plug_pin_t3 11
 #define plug_pin_t4 12
 
@@ -51,7 +51,7 @@
 
 // Settings 
 #define flow_off_t1a 70 // h2o
-#define flow_on_t1a  78 
+#define flow_on_t1a  76 
 #define flow_off_t1b 101 // pva 
 #define flow_on_t1b  105
 #define flow_off_t1c 40

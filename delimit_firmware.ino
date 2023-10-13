@@ -9,7 +9,7 @@
 
 // Settings
 const byte cmd_resolve_interval = 10;
-const byte pwm_shift = 2; 
+const byte pwm_shift = 1; 
 
 // State
 uint32_t cmd_potential_change_time = 0;
