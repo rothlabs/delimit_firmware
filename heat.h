@@ -5,15 +5,15 @@
 #include <PID_v1.h>
 #include "global.h"
 
-double pid_target_t2 = 230; // pla
-double pid_target_t3 = 240; // tpu
-double pid_target_t4 = 240; // tpu
+double pid_target_t2 = 220; // pla
+double pid_target_t3 = 230; // tpu
+double pid_target_t4 = 230; // tpu
 double pid_input_t2, pid_input_t3, pid_input_t4;
 double pid_output_t2, pid_output_t3, pid_output_t4;
 double Kp=15, Ki=0.3, Kd=0; // double Kp=2, Ki=5, Kd=1;
-thermistor therm_t2(14, 0); //therm_pin_t2
-thermistor therm_t3(15, 0); 
-thermistor therm_t4(16, 0); 
+thermistor therm_t2(therm_pin_t2, 0); //therm_pin_t2
+thermistor therm_t3(therm_pin_t3, 0); 
+thermistor therm_t4(therm_pin_t4, 0); 
 PID pid_t2(&pid_input_t2, &pid_output_t2, &pid_target_t2, Kp, Ki, Kd, DIRECT);
 PID pid_t3(&pid_input_t3, &pid_output_t3, &pid_target_t3, Kp, Ki, Kd, DIRECT);
 PID pid_t4(&pid_input_t4, &pid_output_t4, &pid_target_t4, Kp, Ki, Kd, DIRECT);
@@ -25,6 +25,8 @@ class Heat {
   bool heat_t3 = false;
   bool heat_t4 = false;
   bool heat_ready_t2 = false;
+  bool heat_ready_t3 = false;
+  bool heat_ready_t4 = false;
   public: void init(){
     //analogWriteFrequency(heat_pin_t2, 100);
 
@@ -54,22 +56,29 @@ class Heat {
       heat_t2 = false;
       heat_t3 = false;
       heat_t4 = false;
-      digitalWrite(ready_pin_t2, LOW);
-      digitalWrite(ready_pin_t3, LOW);
-      digitalWrite(ready_pin_t4, LOW);
+      //digitalWrite(ready_pin_t2, LOW);
+      //digitalWrite(ready_pin_t3, LOW);
+      //digitalWrite(ready_pin_t4, LOW);
       heat_ready_t2 = false;
+      heat_ready_t3 = false;
+      heat_ready_t4 = false;
     }else if(cmd == 1){
       digitalWrite(air_pin_t1, LOW);
     }else if(cmd == 2){
       heat_t2 = false;
-      digitalWrite(ready_pin_t2, LOW);
       heat_ready_t2 = false;
+      analogWrite(heat_pin_t2, 0);
+      //digitalWrite(ready_pin_t2, LOW);
     }else if(cmd == 3){
       heat_t3 = false;
-      digitalWrite(ready_pin_t3, LOW);
+      heat_ready_t3 = false;
+      analogWrite(heat_pin_t3, 0);
+      //digitalWrite(ready_pin_t3, LOW);
     }else if(cmd == 4){
       heat_t4 = false;
-      digitalWrite(ready_pin_t4, LOW);
+      heat_ready_t4 = false;
+      analogWrite(heat_pin_t4, 0);
+      //digitalWrite(ready_pin_t4, LOW);
     }else if(cmd == 5){
       digitalWrite(air_pin_t1, HIGH);
     }else if(cmd == 6){
@@ -91,7 +100,7 @@ class Heat {
           Serial.println(pid_input_t2);
           if(pid_input_t2 >= pid_target_t2) {
             heat_ready_t2 = true;
-            digitalWrite(ready_pin_t2, HIGH);
+            //digitalWrite(ready_pin_t2, HIGH);
             Serial.println("Heat Ready T2");
           }
         }
@@ -99,18 +108,27 @@ class Heat {
       if(heat_t3){
         pid_input_t3 = therm_t3.analog2temp();
         pid_t3.Compute();
-        analogWrite(heat_pin_t3, pid_output_t3);
-        Serial.print("Temp T3: ");
-        Serial.println(pid_input_t3);
-        if(pid_input_t3 >= pid_target_t3) digitalWrite(ready_pin_t3, HIGH);
+        analogWrite(heat_pin_t3, pid_output_t3 * 16);
+        if(!heat_ready_t3){
+          Serial.print("Temp T3: ");
+          Serial.println(pid_input_t3);
+          if(pid_input_t3 >= pid_target_t3) {
+            heat_ready_t3 = true;
+            //digitalWrite(ready_pin_t3, HIGH);
+            Serial.println("Heat Ready T3");
+          }
+        }
+        //Serial.print("Temp T3: ");
+        //Serial.println(pid_input_t3);
+        //if(pid_input_t3 >= pid_target_t3) digitalWrite(ready_pin_t3, HIGH);
       }
       if(heat_t4){
         pid_input_t4 = therm_t4.analog2temp();
         pid_t4.Compute();
-        analogWrite(heat_pin_t4, pid_output_t4);
-        Serial.print("Temp T4: ");
-        Serial.println(pid_input_t4);
-        if(pid_input_t4 >= pid_target_t4) digitalWrite(ready_pin_t4, HIGH);
+        analogWrite(heat_pin_t4, pid_output_t4 * 16);
+        //Serial.print("Temp T4: ");
+        //Serial.println(pid_input_t4);
+        //if(pid_input_t4 >= pid_target_t4) digitalWrite(ready_pin_t4, HIGH);
       }
       sample_time = millis();
     }

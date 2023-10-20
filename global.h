@@ -3,8 +3,8 @@
 
 // Pin Assigment 
 #define air_pin_t1  0 // heat
-#define heat_pin_t2 1 
-#define heat_pin_t3 2 
+#define heat_pin_t2 2 // 2 
+#define heat_pin_t3 1 // 1
 #define heat_pin_t4 3 
 
 #define flow_pin_t1a 4 // H2O
@@ -15,21 +15,21 @@
 #define laser_pin_t5 8 // tool 5 - laser and fiber
 #define fiber_pin_t5 9 
 
-#define therm_pin_t2 14 // hotend thermistors
-#define therm_pin_t3 15 
+#define therm_pin_t2 15 // 14 // hotend thermistors
+#define therm_pin_t3 14 // 15
 #define therm_pin_t4 16
 
 #define plug_pin_t2 10 // repurpose to fiber grip pin
 #define plug_pin_t3 11
 #define plug_pin_t4 12
 
-#define dir_pin_t2  24 // tool 2 - extruder stepper
-#define stp_pin_t2  25 
-#define enb_pin_t2  26
+#define dir_pin_t2  27 // 24 // tool 2 - extruder stepper
+#define stp_pin_t2  28 // 25
+#define enb_pin_t2  29 // 26
 
-#define dir_pin_t3 27 // tool 3 - extruder stepper
-#define stp_pin_t3 28 
-#define enb_pin_t3 29
+#define dir_pin_t3 24 // 27 // tool 3 - extruder stepper
+#define stp_pin_t3 25 // 28
+#define enb_pin_t3 26 // 29
 
 #define dir_pin_t4 30 // tool 4 - extruder stepper
 #define stp_pin_t4 31 

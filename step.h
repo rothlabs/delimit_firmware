@@ -26,9 +26,6 @@ class Step {
     digitalWrite(enb_pin_t2, HIGH); // Disable steppers
     digitalWrite(enb_pin_t3, HIGH); 
     digitalWrite(enb_pin_t4, HIGH); 
-    plug_t2.attach(plug_pin_t2, 500, 2500);
-    plug_t3.attach(plug_pin_t3, 500, 2500);
-    plug_t4.attach(plug_pin_t4, 500, 2500);
     plug_t2.write(plug_closed_t2);
     plug_t3.write(plug_closed_t3);
     plug_t4.write(plug_closed_t4);
@@ -38,8 +35,8 @@ class Step {
       selector = 0;
       speed = 0;
       //plug_t2.write(plug_closed_t2);
-      plug_t3.write(plug_closed_t3);
-      plug_t4.write(plug_closed_t4);
+      //plug_t3.write(plug_closed_t3);
+      //plug_t4.write(plug_closed_t4);
       digitalWrite(enb_pin_t2, HIGH); 
       digitalWrite(enb_pin_t3, HIGH); 
       digitalWrite(enb_pin_t4, HIGH); 
@@ -88,9 +85,19 @@ class Step {
       step_2.setSpeed(speed);
       //step_2.setSpeed(pwm*factor);
     }else if(selector == 3){
-      step_3.setSpeed(pwm*factor);
+      if(digitalRead(cmd_pin_6)){
+        speed = pwm*factor; 
+      }else{
+        speed = 0;
+      }
+      step_3.setSpeed(speed);
     }else if(selector == 4){
-      step_4.setSpeed(pwm*factor);
+      if(digitalRead(cmd_pin_6)){
+        speed = pwm*factor; 
+      }else{
+        speed = 0;
+      }
+      step_4.setSpeed(speed);
     }
   }
   public: void run(){
