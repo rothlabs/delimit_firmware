@@ -30,9 +30,9 @@ void setup() {
   pinMode(flow_pin_t1a, OUTPUT);
   pinMode(flow_pin_t1b, OUTPUT);
   pinMode(flow_pin_t1c, OUTPUT);
-  pinMode(flow_pin_t1d, OUTPUT);
-  pinMode(laser_pin_t5, OUTPUT);
-  pinMode(fiber_pin_t5, OUTPUT);
+  //pinMode(flow_pin_t1d, OUTPUT);
+  //pinMode(laser_pin_t5, OUTPUT);
+  //pinMode(fiber_pin_t5, OUTPUT);
   pinMode(dir_pin_t2,   OUTPUT);
   pinMode(stp_pin_t2,   OUTPUT);
   pinMode(enb_pin_t2,   OUTPUT);
@@ -42,9 +42,9 @@ void setup() {
   pinMode(dir_pin_t4,   OUTPUT);
   pinMode(stp_pin_t4,   OUTPUT);
   pinMode(enb_pin_t4,   OUTPUT);
-  pinMode(plug_pin_t2,  OUTPUT);
-  pinMode(plug_pin_t3,  OUTPUT);
-  pinMode(plug_pin_t4,  OUTPUT);
+  pinMode(spin_pin_t2,  OUTPUT);
+  pinMode(spin_pin_t3,  OUTPUT);
+  pinMode(spin_pin_t4,  OUTPUT);
   pinMode(cap_pin,      OUTPUT);
   pinMode(ready_pin_t2, OUTPUT);
   pinMode(ready_pin_t3, OUTPUT);

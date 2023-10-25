@@ -1,6 +1,9 @@
 #ifndef GLOBAL
 #define GLOBAL
 
+#define STEPPER_SERIAL_PORT Serial2 // TMC2208/TMC2224 HardwareSerial port
+#define R_SENSE 0.11f // Match to your driver // SilentStepStick series use 0.11
+
 // Pin Assigment 
 #define air_pin_t1  0 // heat
 #define heat_pin_t2 2 // 2 
@@ -10,18 +13,18 @@
 #define flow_pin_t1a 4 // H2O
 #define flow_pin_t1b 5 // PVA
 #define flow_pin_t1c 6 // PU Part A
-#define flow_pin_t1d 7 // PU Part B
+//#define flow_pin_t1d 7 // PU Part B
 
-#define laser_pin_t5 8 // tool 5 - laser and fiber
-#define fiber_pin_t5 9 
+//#define laser_pin_t5 8 // tool 5 - laser and fiber
+//#define fiber_pin_t5 9 
 
 #define therm_pin_t2 15 // 14 // hotend thermistors
 #define therm_pin_t3 14 // 15
 #define therm_pin_t4 16
 
-#define plug_pin_t2 10 // repurpose to fiber grip pin
-#define plug_pin_t3 11
-#define plug_pin_t4 12
+#define spin_pin_t2 10 // fiber spin
+#define spin_pin_t3 11
+#define spin_pin_t4 12
 
 #define dir_pin_t2  27 // 24 // tool 2 - extruder stepper
 #define stp_pin_t2  28 // 25
@@ -63,11 +66,11 @@
 #define cap_open   0
 #define cap_mixer  30 
 
-#define plug_closed_t2 101
-#define plug_open_t2   89
-#define plug_closed_t3 101
-#define plug_open_t3   89
-#define plug_closed_t4 101
-#define plug_open_t4   89
+//#define plug_closed_t2 101
+//#define plug_open_t2   89
+//#define plug_closed_t3 101
+//#define plug_open_t3   89
+//#define plug_closed_t4 101
+//#define plug_open_t4   89
 
 #endif

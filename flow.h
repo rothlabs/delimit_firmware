@@ -8,19 +8,19 @@ class Flow {
   PWMServo flow_t1a;
   PWMServo flow_t1b;
   PWMServo flow_t1c;
-  PWMServo flow_t1d;
+  //PWMServo flow_t1d;
   PWMServo cap;
   byte selector = 0;
   public: void init(){
     flow_t1a.attach(flow_pin_t1a, 500, 2500); 
     flow_t1b.attach(flow_pin_t1b, 500, 2500);
     flow_t1c.attach(flow_pin_t1c, 500, 2500);
-    flow_t1d.attach(flow_pin_t1d, 500, 2500);
+    //flow_t1d.attach(flow_pin_t1d, 500, 2500);
     cap.attach(cap_pin,           500, 2500);
     flow_t1a.write(flow_off_t1a);
     flow_t1b.write(flow_off_t1b);
     flow_t1c.write(flow_off_t1c);
-    flow_t1d.write(flow_off_t1d);
+    //flow_t1d.write(flow_off_t1d);
     cap.write(cap_closed);
   }
   private: void close_cap(){
@@ -34,20 +34,20 @@ class Flow {
       flow_t1a.write(flow_off_t1a);
       flow_t1b.write(flow_off_t1b);
       flow_t1c.write(flow_off_t1c);
-      flow_t1d.write(flow_off_t1d);
+      //flow_t1d.write(flow_off_t1d);
       //close_cap(); // cap.write(cap_closed);
     }else if(cmd == 9){ // h2o
       selector = 1;
       //flow_t1a.write(flow_on_t1a);
       flow_t1b.write(flow_off_t1b);
       flow_t1c.write(flow_off_t1c);
-      flow_t1d.write(flow_off_t1d);
+      //flow_t1d.write(flow_off_t1d);
     }else if(cmd == 10){ // pva
       selector = 2;
       flow_t1a.write(flow_off_t1a);
       //flow_t1b.write(flow_on_t1b);
       flow_t1c.write(flow_off_t1c);
-      flow_t1d.write(flow_off_t1d);
+      //flow_t1d.write(flow_off_t1d);
     }else if(cmd == 11){ // pu components
       selector = 3;
       flow_t1a.write(flow_off_t1a);
@@ -70,7 +70,7 @@ class Flow {
       else flow_t1b.write(flow_off_t1b);
     }else if(selector == 3){
       flow_t1c.write(map(pwm, 0, 255, flow_off_t1c, flow_on_t1c));
-      flow_t1d.write(map(pwm, 0, 255, flow_off_t1d, flow_on_t1d));
+      //flow_t1d.write(map(pwm, 0, 255, flow_off_t1d, flow_on_t1d));
     }
   }
 };
